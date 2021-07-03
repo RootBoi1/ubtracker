@@ -13,9 +13,9 @@ def get_free_seats():
     session = HTMLSession()
     URL = "https://www.ub.uni-freiburg.de/freie-plaetze/#:~:text=Aktuell%20noch%20416%20freie%20Pl%C3%A4tze%20im%20Lesesaal."
 
-    r = session.get(URL, stream=True)
     last_iteration = 0
     while True:
+        r = session.get(URL, stream=True)
         start = time.time()
         r.html.render(retries=1)
         soup = bfs(r.html.html, "lxml")
@@ -31,7 +31,7 @@ def get_free_seats():
             last_iteration = free
             save_to_file(date, free)
         print(free, time.time()-start)
-        time.sleep(1)
+        r.close()
 
 
 if __name__=="__main__":
