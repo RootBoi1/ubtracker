@@ -1,3 +1,3 @@
 # UB-Freiburg Tracker
 
-Ein Tracker der Sitzpläte für die Universitätsbibliothek Freiburg
+Ein Tracker der Sitzplätze für die Universitätsbibliothek Freiburg
