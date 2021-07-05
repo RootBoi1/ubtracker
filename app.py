@@ -9,7 +9,6 @@ def send_js(path):
 
 @app.route('/css/<path:path>')
 def send_css(path):
-    print(path)
     return send_from_directory('css', path)
 
 @app.route('/')
