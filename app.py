@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, jsonify
 
 # set the project root directory as the static folder
 app = Flask(__name__, template_folder='.')
@@ -15,10 +15,25 @@ def send_css(path):
 def hello_world():
     return render_template('index.html')
 
-@app.route('/', methods=['GET'])
+@app.route('/getFreeSeats', methods=['GET'])
 def get_data():
-    # return available seats data
-    return [1, 2, 3, 4, 5]
+    f = open("data.csv", "r")
+    dataDict = dict()
+    for line in f:
+        line = line.strip()
+        date = line.split(",")[0]
+        day = ".".join(date.split(".")[0:2])
+        year = date.split(".")[2]
+        clock = ".".join(date.split(".")[3:6])
+        seats = line.split(",")[1]
+        if year not in dataDict:
+            dataDict[year] = dict()
+        if day not in dataDict[year]:
+            dataDict[year][day] = dict()
+        dataDict[year][day][clock] = seats
+    print(dataDict)
+    return jsonify(dataDict)
 
 if __name__ == "__main__":
+    #get_data()
     app.run()

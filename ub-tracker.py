@@ -17,7 +17,10 @@ def get_free_seats():
         free = data["cap"] - data["count"]
         request.close()
         t = time.localtime()
-        date = f"{t[2]}.{t[1]}.{t[0]}.{(t[3]+2)%24}.{t[4]}.{t[5]}"  # Date in the format DD.MM.YYYY.Hour.Minute.Second
+        date = f"{t[2]}.{t[1]}.{t[0]}.{(t[3])%24}.{t[4]}.{t[5]}"  # Date in the format DD.MM.YYYY.Hour.Minute.Second
+        print(t)
+        print(date)
+        print()
         if (int(t[3])+2)%24==7 and int(t[4]==59):  # Start early
             _ = 0
         elif (int(t[3])+2)%24 < 8:  # Wait until UB opens again
