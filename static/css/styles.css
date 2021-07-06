@@ -37,7 +37,7 @@ h2 {
     left: 0;
     box-shadow: 0 8px 8px -10px rgba(0,0,0,.15);
     height: 65px;
-    padding: .7rem 5rem;
+    padding: .7rem 5%;
     width: 100%;
     display: flex;
     align-items: center;
@@ -50,10 +50,14 @@ h2 {
     font-weight: 700;
 }
 
+.stand {
+    min-width: 340px;
+}
+
 /******************* main *******************/
 
 .main {
-    width: 100%;
+    width: 90%;
     max-width: 1280px;
     margin: auto;
     margin-top: 160px;
@@ -65,6 +69,8 @@ h2 {
 
 .top-row {
     display: flex;
+    width: 90%;
+    margin: auto;
 }
 
 .item {
@@ -108,7 +114,17 @@ h2 {
 /******************* responsive *******************/
 
 @media only screen and (max-width: 1200px) {
-    .main {
-        width: 100%;
+    .navbar {
+        flex-direction: column;
+        justify-content: center;
+        align-items: initial;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .navbar {
+        flex-direction: column;
+        justify-content: center;
+        align-items: initial;
     }
 }
