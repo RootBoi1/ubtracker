@@ -1,4 +1,5 @@
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify, request
+from datetime import date
 
 # set the project root directory as the static folder
 app = Flask(__name__, template_folder='.')
@@ -17,6 +18,14 @@ def hello_world():
 
 @app.route('/getFreeSeats', methods=['GET'])
 def get_data():
+    period = request.args.get('date')
+    today = date.today()
+    if period == "today":
+        print(today)
+    if period == "last_minute":
+        pass
+    if period == "last_week":
+        pass
     f = open("data.csv", "r")
     dataDict = dict()
     for line in f:
@@ -31,7 +40,6 @@ def get_data():
         if day not in dataDict[year]:
             dataDict[year][day] = dict()
         dataDict[year][day][clock] = seats
-    print(dataDict)
     return jsonify(dataDict)
 
 if __name__ == "__main__":
