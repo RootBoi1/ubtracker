@@ -11,47 +11,69 @@
   <link rel="stylesheet" href="{{ url_for('static',filename='css/normalize.css') }}">
   <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <div class="navbar">
-      <h1>UB-Freiburg Tracker</h1>
+      <!--<span>UB-Freiburg Tracker</span><span>Stand: <span id="day"></span> <span id="month"></span> <span id="year"></span>, <span></span> Uhr</span>-->
+      <span class="title">UB-Freiburg-Tracker.de</span><span class="stand">Stand: <span id="date"></span></span>
     </div>
   </header>
   <div class="main">
+    <div class="top-row-container">
+      <div class="top-row">
+        <div class="item item1">
+            <div id="free-seats" class="item-container">
+              <div class="container-content">
+                <span class="big-number" style="color: rgb(61, 68, 70);">56</span>
+              </div>
+              <div class="container-description">
+                <span class="number-description">Free Seats</span>
+              </div>
+            </div>
+        </div>
+        <div class="item item2">
+            <div id="minutes-until-full" class="item-container">
+              <div class="container-content">
+                <span class="big-number">~17</span>
+              </div>
+              <div class="container-description">
+                <span class="number-description">Minutes until full</span>
+              </div>
+            </div>
+        </div>
+        <div class="item item3">
+          <div id="free-seats-difference" class="item-container">
+            <div class="container-content">
+              <span class="big-number">+4</span>
+            </div>
+            <div class="container-description">
+              <span class="number-description">Students per minute</span>
+            </div>
+          </div>
+        </div>
+        <div class="item item4">
+          <div class="item-container">
+            <div class="container-content">
+              <span class="big-number">~7</span>
+            </div>
+            <div class="container-description">
+              <span class="number-description">Minutes, until next free seat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="above-h1">Bekomme ich heute noch einen Platz in der UB Freiburg?</div>
+    <h1>Platzbelegung der Universitätsbibliothek Freiburg</h1>
     <h2>Auf dieser Website lassen sich die aktuelle Platzsituation sowie der bisherige Verlauf der Platzbelegung ablesen.</h2>
-    <h3>Es sind gerade <span class="free-places">56</span> Plätze frei.</h3>
+    <!--<h3>Es sind gerade <span class="free-places">56</span> Plätze frei.</h3>-->
     <canvas id="main-chart" class="main-chart"></canvas>
   </div>
   <div class="footer">
 
   </div>
-  <script>
-    var ctx = document.getElementById('main-chart');
-    const labels = [ "January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December" ];
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: 'My First Dataset',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    };
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-    </script>
   <script src="{{ url_for('static',filename='js/main.js') }}"></script>
 </body>
 </html>

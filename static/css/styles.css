@@ -9,6 +9,25 @@ body {
     */
 }
 
+.above-h1 {
+    color: rgb(85, 85, 85);
+    font-size: 1.5em;
+    margin-top: 100px;
+}
+
+h1 {
+    color: black;
+    margin-bottom: 50px;
+    font-size: 3.3em;
+    margin-top: 0;
+}
+
+h2 {
+    color: rgb(85, 85, 85);
+    font-weight: 500;
+    font-size: 1.7em;
+}
+
 /******************* header *******************/
 
 .navbar {
@@ -18,23 +37,64 @@ body {
     left: 0;
     box-shadow: 0 8px 8px -10px rgba(0,0,0,.15);
     height: 65px;
-    padding: .7rem 1.5rem;
+    padding: .7rem 5%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.6em;
+}
+
+.title {
+    color: black;
+    margin-right: 18px;
+    font-weight: 700;
+}
+
+.stand {
+    min-width: 340px;
 }
 
 /******************* main *******************/
 
 .main {
+    width: 90%;
+    max-width: 1280px;
+    margin: auto;
     margin-top: 160px;
-    width: 80%;
     display: flex;
     flex-direction: column;
-    margin-left: 5%;
+}
+
+/********* top-row *********/
+
+.top-row {
+    display: flex;
+    width: 90%;
+    margin: auto;
+}
+
+.item {
+    width: 25%;
+    height: 100px;
+    padding: 10px;
+}
+
+.big-number {
+    font-size: 67px;
+    color: rgb(51, 146, 197);
+}
+
+.number-description {
+    color: rgb(85, 85, 85);
+    font-size: 1.5em;
 }
 
 .free-places {
     font-size: 5em;
+    color: black;
 }
+
+/********* chart *********/
 
 .main-chart {
     max-height: 400px;
@@ -54,7 +114,17 @@ body {
 /******************* responsive *******************/
 
 @media only screen and (max-width: 1200px) {
-    .main {
-        width: 90%;
+    .navbar {
+        flex-direction: column;
+        justify-content: center;
+        align-items: initial;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .navbar {
+        flex-direction: column;
+        justify-content: center;
+        align-items: initial;
     }
 }
