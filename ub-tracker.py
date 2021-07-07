@@ -1,33 +1,39 @@
 import time
 import json
 import requests
+from datetime import timedelta as td
 
 
-def save_to_file(date, n, filename="./data.csv"):
+def save_to_file(date, cap, count, delta, filename="./crapdata.csv"):
     with open(filename, 'a') as f:
-        f.write(f"{date},{n}\n")
+        f.write(f"{date};{cap};{count};{delta}\n")
     
 def get_free_seats():
     url = "https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php"
     last = 0
     while True:
-        start = time.time()
         request = requests.post(url)
         data = json.loads(request.text)
-        free = data["cap"] - data["count"]
         request.close()
-        t = time.localtime()
-        date = f"{t[2]}.{t[1]}.{t[0]}.{(t[3]+2)%24}.{t[4]}.{t[5]}"  # Date in the format DD.MM.YYYY.Hour.Minute.Second
-        if (int(t[3])+2)%24==7 and int(t[4]==59):  # Start early
-            _ = 0
-        elif (int(t[3])+2)%24 < 8:  # Wait until UB opens again
-            print(f"Sleeping for {((7-(int(t[3])+2)%24))}h {((59-int(t[4])))}min")
-            time.sleep(((7-((int(t[3])+2)%24))*3600)+((59-int(t[4]))*60))
-        if free != last: 
-            last = free
-            save_to_file(date, free, "./data.csv")
-        print(free)
+
+        cap = data["cap"]
+        count = data["count"]
+        delta = data["cap"] - data["count"]
+
+        t = list(time.localtime())
+        t[3] = (t[3] + 2) %24  # Server localtime is in UTC -> +2h for MEZ
+
+        if delta != last:
+            last = delta 
+            save_to_file(t[:6], cap, count, delta, filename=f"./data/{t[2]}-{t[1]}-{t[0]}.csv")
+            print(delta)
+        
+        if t[3] < 7 and t[3] > 1:
+            print(f"Sleeping:\n{t[3]}:{t[4]} - 07:00")
+            time.sleep(25200 - int(td(hours=t[3], minutes=t[4], seconds=t[5]).total_seconds()))
+ 
         time.sleep(1.7)
+           
 
 
 if __name__=="__main__":
