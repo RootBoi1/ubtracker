@@ -1,13 +1,29 @@
-let today = {labels:[], values:[], Cap:"450"};
+let today = {
+    labels: [],
+    values: [],
+    Cap: "450"
+};
+let currentData = {};
 let last_week = {
     labels: {
 
     }
 }
+let chart;
+
+function addData(label, data) {
+    chart.data.datasets.forEach((dataset) => {
+        if (dataset.data[dataset.data.length - 1] != data) {
+            chart.data.labels.push(label);
+            dataset.data.push(data);
+        }
+    });
+    chart.update();
+}
+
 
 // update graph
 function update_graph(data) {
-    console.log(data);
     var ctx = document.getElementById('main-chart');
     const dataSet = {
         labels: data.labels,
@@ -27,7 +43,7 @@ function update_graph(data) {
             }
         }],
     };
-    var myChart = new Chart(ctx, {
+    chart = new Chart(ctx, {
         type: 'line',
         data: dataSet,
         options: {
@@ -36,29 +52,51 @@ function update_graph(data) {
                 tooltip: {
                     mode: 'index',
                     intersect: false
-                  },
+                },
                 title: {
                     display: true,
                     text: 'Sitzplatzbelegung'
+                },
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 450,
+                            yMax: 450,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(237, 110, 133)',
+                            borderWidth: 1,
+                            content: "MAX"
+                        }
+                    }
                 }
             },
             scales: {
-              y: {
-                min: 0,
-                max: 450,
-              }
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    min: 0,
+                    max: 500,
+                    grid: {
+                        display: true,
+                        color: 'rgb(238, 238, 238)',
+                    }
+                },
             }
-          },
-          hover: {
+        },
+        hover: {
             mode: 'index',
             intersec: false
-          },
+        },
     });
 }
 
 // update numbers on top of page
 function update_numbers(data) {
-    $("#free-seats-number").html(data.cap-data.count);
+    $("#free-seats-number").html(data.cap - data.count);
 }
 
 
@@ -87,16 +125,21 @@ $.ajax({
     $.ajax({
         url: 'https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php',
         success: function(data) {
-            // update_graph(data);
+            const d = new Date();
+            let dateString = d.toLocaleString();
+            $("#date").html(dateString);
+            addData(dateString.split(" ")[1].slice(0, -3), data.count);
             update_numbers(data);
         },
         complete: function() {
+            /*
             const d = new Date();
             let dateString = d.toLocaleString();
             $("#date").html(dateString);
             let year = d.getFullYear();
             let month = d.getMonth();
             let day = d.getUTCDay();
+            */
             setTimeout(worker, 1000);
         }
     });
