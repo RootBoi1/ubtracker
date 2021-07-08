@@ -1,3 +1,10 @@
+let today = {labels:[], values:[], Cap="450"};
+let last_week = {
+    labels: {
+
+    }
+}
+
 function update_graph(data) {
     var ctx = document.getElementById('main-chart');
     const labels = ["January", "", "March", "", "May", "June",
@@ -35,15 +42,31 @@ function update_graph(data) {
 }
 
 function update_numbers(data) {
-
+    console.log(data);
 }
+
+$.ajax({
+    url: 'getFreeSeats',
+    data: {
+        date: "today"
+    },
+    success: function(data) {
+        update_graph(data);
+        update_numbers(data);
+    },
+    complete: function() {
+        const d = new Date();
+        let dateString = d.toLocaleString();
+        $("#date").html(dateString);
+        let year = d.getFullYear();
+        let month = d.getMonth();
+        let day = d.getUTCDay();
+    }
+});
 
 (function worker() {
     $.ajax({
-        url: 'getFreeSeats',
-        data: {
-            date: "today"
-        },
+        url: 'https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php',
         success: function(data) {
             update_graph(data);
             update_numbers(data);
