@@ -27,10 +27,11 @@ def get_free_seats():
             last = delta 
             save_to_file(t[:6], cap, count, delta, filename=f"./data/{t[2]}-{t[1]}-{t[0]}.csv")
             print(delta)
-        
-        if t[3] < 7 and t[3] > 1:
+        if t[3] < 7 and t[3] > 0:
             print(f"Sleeping:\n{t[3]}:{t[4]} - 07:00")
-            time.sleep(25200 - int(td(hours=t[3], minutes=t[4], seconds=t[5]).total_seconds()))
+            time_asleep = 25200 - int(td(hours=t[3], minutes=t[4], seconds=t[5]).total_seconds())
+            print(f"{int(time_asleep/3600)}h {int((time_asleep%3600)/60)+1}min")
+            time.sleep(time_asleep)
  
         time.sleep(1.7)
            
