@@ -11,17 +11,6 @@ let last_week = {
 }
 var chart;
 
-function addData(label, data) {
-    chart.data.datasets.forEach((dataset) => {
-        if (dataset.data[dataset.data.length - 1] != data) {
-            chart.data.labels.push(label);
-            dataset.data.push(data);
-        }
-    });
-    chart.update();
-}
-
-
 // update graph
 function update_graph(data) {
     var ctx = document.getElementById('main-chart');
@@ -92,8 +81,17 @@ function update_graph(data) {
             intersec: false
         },
     });
-    console.log(chart.data);
-    console.log("Chart Initiated");
+}
+
+// add newest data to chart
+function addData(label, data) {
+    chart.data.datasets.forEach((dataset) => {
+        if (dataset.data[dataset.data.length - 1] != data) {
+            chart.data.labels.push(label);
+            dataset.data.push(data);
+        }
+    });
+    chart.update();
 }
 
 // update numbers on top of page
@@ -130,7 +128,9 @@ $.ajax({
             const d = new Date();
             let dateString = d.toLocaleString();
             $("#date").html(dateString);
-            addData(dateString.split(" ")[1].slice(0, -3), data.count);
+            if (!(typeof chart.data === 'undefined')) {
+                addData(dateString.split(" ")[1].slice(0, -3), data.count);
+              }
             update_numbers(data);
         },
         complete: function() {
