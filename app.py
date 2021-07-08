@@ -22,19 +22,18 @@ def hello_world():
 @app.route('/getFreeSeats', methods=['GET'])
 def get_data():
     period = request.args.get('date')
-    today = date.today()
+    # today = date.today()
     dataDict = dict()
     if period == "today":
-        list_of_files = glob.glob('/data/*.csv')
+        list_of_files = glob.glob('./data/*.csv')
         latest_file = max(list_of_files, key=os.path.getctime)
         df = pd.read_csv(latest_file, delimiter=";")
-        saved_column = df.column_name #you can also use df['column_name']
 
         # column name time
-        dataDict["labels"] = df.time
+        dataDict["values"] = [",".join(time[1:-1].replace(" ", "").split(",")[3:]) for time in df.DATE.to_list()]
 
         # column name count
-        dataDict["values"] = df.count
+        dataDict["values"] = df.COUNT.to_list()
 
         return jsonify(dataDict)
     if period == "last_week":
@@ -57,4 +56,4 @@ def get_data():
 
 if __name__ == "__main__":
     #get_data()
-    app.run()
+    app.run(debug=True)

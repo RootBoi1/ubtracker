@@ -1,17 +1,18 @@
-let today = {labels:[], values:[], Cap="450"};
+let today = {labels:[], values:[], Cap:"450"};
 let last_week = {
     labels: {
 
     }
 }
 
+// update graph
 function update_graph(data) {
     var ctx = document.getElementById('main-chart');
     const labels = ["January", "", "March", "", "May", "June",
         "July", "August", "September", "October", "November", "December", "January", "", "March", "", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-    const data = {
+    const dat = {
         labels: labels,
         datasets: [{
             label: 'My First Dataset',
@@ -30,7 +31,7 @@ function update_graph(data) {
     };
     var myChart = new Chart(ctx, {
         type: 'line',
-        data: data,
+        data: dat,
         options: {
             scales: {
                 y: {
@@ -41,10 +42,13 @@ function update_graph(data) {
     });
 }
 
+// update numbers on top of page
 function update_numbers(data) {
     console.log(data);
 }
 
+
+// initial ajax call
 $.ajax({
     url: 'getFreeSeats',
     data: {
@@ -64,11 +68,13 @@ $.ajax({
     }
 });
 
+// ongoing ajax call
 (function worker() {
     $.ajax({
         url: 'https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php',
         success: function(data) {
-            update_graph(data);
+            console.log(data);
+            // update_graph(data);
             update_numbers(data);
         },
         complete: function() {
