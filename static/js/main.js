@@ -9,7 +9,7 @@ let last_week = {
 
     }
 }
-let chart;
+var chart;
 
 function addData(label, data) {
     chart.data.datasets.forEach((dataset) => {
