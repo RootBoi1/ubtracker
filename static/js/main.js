@@ -9,18 +9,15 @@ let last_week = {
 function update_graph(data) {
     console.log(data);
     var ctx = document.getElementById('main-chart');
-    const labels = ["January", "", "March", "", "May", "June",
-        "July", "August", "September", "October", "November", "December", "January", "", "March", "", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    const dat = {
+    const dataSet = {
         labels: data.labels,
         datasets: [{
-            label: 'My First Dataset',
+            label: 'Heute',
             data: data.values,
-            fill: false,
+            fill: true,
             borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
+            tension: 0.2,
+            pointRadius: 0
         }],
         xAxes: [{
             type: 'time',
@@ -28,18 +25,34 @@ function update_graph(data) {
                 autoSkip: true,
                 maxTicksLimit: 4
             }
-        }]
+        }],
     };
     var myChart = new Chart(ctx, {
         type: 'line',
-        data: dat,
+        data: dataSet,
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                  },
+                title: {
+                    display: true,
+                    text: 'Sitzplatzbelegung'
                 }
+            },
+            scales: {
+              y: {
+                min: 0,
+                max: 450,
+              }
             }
-        }
+          },
+          hover: {
+            mode: 'index',
+            intersec: false
+          },
     });
 }
 
@@ -84,7 +97,7 @@ $.ajax({
             let year = d.getFullYear();
             let month = d.getMonth();
             let day = d.getUTCDay();
-            setTimeout(worker, 3000);
+            setTimeout(worker, 1000);
         }
     });
 })();
