@@ -7,16 +7,17 @@ let last_week = {
 
 // update graph
 function update_graph(data) {
+    console.log(data);
     var ctx = document.getElementById('main-chart');
     const labels = ["January", "", "March", "", "May", "June",
         "July", "August", "September", "October", "November", "December", "January", "", "March", "", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
     const dat = {
-        labels: labels,
+        labels: data.labels,
         datasets: [{
             label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40, 35, 33, 32, 31, 65, 59, 80, 81, 56, 55, 40, 35, 33, 32, 31, 12, 13],
+            data: data.values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1
@@ -44,7 +45,7 @@ function update_graph(data) {
 
 // update numbers on top of page
 function update_numbers(data) {
-    console.log(data);
+    $("#free-seats-number").html(data.cap-data.count);
 }
 
 
@@ -56,7 +57,7 @@ $.ajax({
     },
     success: function(data) {
         update_graph(data);
-        update_numbers(data);
+        // update_numbers(data);
     },
     complete: function() {
         const d = new Date();
@@ -73,7 +74,6 @@ $.ajax({
     $.ajax({
         url: 'https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php',
         success: function(data) {
-            console.log(data);
             // update_graph(data);
             update_numbers(data);
         },
@@ -84,7 +84,7 @@ $.ajax({
             let year = d.getFullYear();
             let month = d.getMonth();
             let day = d.getUTCDay();
-            setTimeout(worker, 5000);
+            setTimeout(worker, 3000);
         }
     });
 })();

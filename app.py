@@ -24,20 +24,27 @@ def get_data():
     period = request.args.get('date')
     # today = date.today()
     dataDict = dict()
+    list_of_files = glob.glob('./data/*.csv')
     if period == "today":
-        list_of_files = glob.glob('./data/*.csv')
         latest_file = max(list_of_files, key=os.path.getctime)
         df = pd.read_csv(latest_file, delimiter=";")
 
         # column name time
-        dataDict["values"] = [",".join(time[1:-1].replace(" ", "").split(",")[3:]) for time in df.DATE.to_list()]
+        dataDict["labels"] = [":".join(time[1:-1].replace(" ", "").split(",")[3:-1]) for time in df.DATE.to_list()]
 
         # column name count
         dataDict["values"] = df.COUNT.to_list()
-
         return jsonify(dataDict)
     if period == "last_week":
-        pass
+        latest_file = max(list_of_files, key=os.path.getctime)
+        df = pd.read_csv(latest_file, delimiter=";")
+
+        # column name time
+        dataDict["labels"] = [":".join(time[1:-1].replace(" ", "").split(",")[3:-1]) for time in df.DATE.to_list()]
+
+        # column name count
+        dataDict["values"] = df.COUNT.to_list()
+        return jsonify(dataDict)
     f = open("data.csv", "r")
     dataDict = dict()
     for line in f:

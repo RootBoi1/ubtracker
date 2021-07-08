@@ -16,9 +16,11 @@
 <body>
   <header>
     <div class="navbar">
-      <img src="{{ url_for('static', filename='UBLogo.png') }}" width=5% alt="Logo">
+      <img src="{{ url_for('static', filename='UBLogo.png') }}" width=5% alt="Logo" class="logo">
       <!--<span>UB-Freiburg Tracker</span><span>Stand: <span id="day"></span> <span id="month"></span> <span id="year"></span>, <span></span> Uhr</span>-->
-      <span class="title">UB-Freiburg-Tracker.de</span><span class="stand">Stand: <span id="date"></span></span>
+      <div class="title-and-stand">
+        <span class="title">UB-Freiburg-Tracker.de</span><span class="stand">Stand: <span id="date"></span></span>
+      </div>
     </div>
   </header>
   <div class="main">
@@ -27,10 +29,10 @@
         <div class="item item1">
             <div id="free-seats" class="item-container">
               <div class="container-content">
-                <span class="big-number" style="color: rgb(61, 68, 70);">56</span>
+                <span id="free-seats-number" class="big-number" style="color: rgb(61, 68, 70);">-</span>
               </div>
               <div class="container-description">
-                <span id="free-places" class="number-description">Freie Plätze</span>
+                <span class="number-description">Freie Plätze</span>
               </div>
             </div>
         </div>
