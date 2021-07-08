@@ -92,6 +92,8 @@ function update_graph(data) {
             intersec: false
         },
     });
+    console.log(chart.data);
+    console.log("Chart Initiated");
 }
 
 // update numbers on top of page
