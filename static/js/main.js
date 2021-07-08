@@ -9,7 +9,7 @@ let last_week = {
 
     }
 }
-var chart;
+let chart;
 
 // update graph
 function update_graph(data) {
@@ -128,7 +128,7 @@ $.ajax({
             const d = new Date();
             let dateString = d.toLocaleString();
             $("#date").html(dateString);
-            if (!(typeof chart.data === 'undefined')) {
+            if (!(typeof chart === 'undefined')) {
                 addData(dateString.split(" ")[1].slice(0, -3), data.count);
               }
             update_numbers(data);
