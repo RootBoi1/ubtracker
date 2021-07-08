@@ -1,5 +1,8 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request
+import glob
+import os
 from datetime import date
+import pandas as pd
 
 # set the project root directory as the static folder
 app = Flask(__name__, template_folder='.')
@@ -20,10 +23,20 @@ def hello_world():
 def get_data():
     period = request.args.get('date')
     today = date.today()
+    dataDict = dict()
     if period == "today":
-        print(today)
-    if period == "last_minute":
-        pass
+        list_of_files = glob.glob('/data/*.csv')
+        latest_file = max(list_of_files, key=os.path.getctime)
+        df = pd.read_csv(latest_file, delimiter=";")
+        saved_column = df.column_name #you can also use df['column_name']
+
+        # column name time
+        dataDict["labels"] = df.time
+
+        # column name count
+        dataDict["values"] = df.count
+
+        return jsonify(dataDict)
     if period == "last_week":
         pass
     f = open("data.csv", "r")
