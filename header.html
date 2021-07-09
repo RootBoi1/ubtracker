@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UB Freiburg Tracker</title>
+  <meta name="description" content="Hier kannst du dir die Sitzplatzsituation zum aktuellen Zeitpunkt sowie über einen zeitlichen Verlauf der Universitätsbibliothek Freiburg anschauen!">
+  <meta name="keywords" content="Universität Freiburg Bibliothek Sitzplätze Corona Anzahl"/>
+  <meta name="robots" content="index"/>
+  <meta name="author" content="" />
+  <meta name="copyright" content="" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='UBLogo.png') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/chartjs-plugin-annotation@1.0.2/dist/chartjs-plugin-annotation.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <img src="{{ url_for('static', filename='UBLogo.png') }}" width=5% alt="Logo" class="logo">
+      <!--<span>UB-Freiburg Tracker</span><span>Stand: <span id="day"></span> <span id="month"></span> <span id="year"></span>, <span></span> Uhr</span>-->
+      <div class="title-and-stand">
+        <span class="title">UB-Freiburg-Tracker.de</span><span class="stand">Stand: <span id="date"></span></span>
+      </div>
+    </div>
+  </header>
