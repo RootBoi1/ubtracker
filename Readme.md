@@ -2,4 +2,4 @@
 
 Ein Tracker der Sitzplätze für die Universitätsbibliothek Freiburg
 
-Johannes stinkt
+https://ub-freiburg-tracker.de/
