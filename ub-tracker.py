@@ -32,7 +32,7 @@ def get_free_seats():
             time_asleep = 25200 - int(td(hours=t[3], minutes=t[4], seconds=t[5]).total_seconds())
             print(f"{int(time_asleep/3600)}h {int((time_asleep%3600)/60)+1}min")
             time.sleep(time_asleep)
-            with open("./data/{t[2]}-{t[1]}-{t[0]}.csv") as f:
+            with open("./data/{t[2]+1}-{t[1]}-{t[0]}.csv") as f:
                 f.write("DATE;CAP;COUNT;DELTA")
         time.sleep(1.7)
            

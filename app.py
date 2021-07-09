@@ -1,6 +1,7 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request
-import glob
 import os
+import glob
+import json
 from datetime import date
 import pandas as pd
 
@@ -22,45 +23,25 @@ def hello_world():
 @app.route('/getFreeSeats', methods=['GET'])
 def get_data():
     period = request.args.get('date')
-    # today = date.today()
     dataDict = dict()
     list_of_files = glob.glob('./data/*.csv')
+    latest_file = max(list_of_files, key=os.path.getctime)
+    df = pd.read_csv(latest_file, delimiter=";")
+
     if period == "today":
-        latest_file = max(list_of_files, key=os.path.getctime)
-        df = pd.read_csv(latest_file, delimiter=";")
-
         # column name time
-        dataDict["labels"] = [":".join(time[1:-1].replace(" ", "").split(",")[3:-1]) for time in df.DATE.to_list()]
-
+        dataDict["labels"] = [f"{json.loads(i)[3]}:{json.loads(i)[4]}" for i in df.DATE.to_list()]
         # column name count
         dataDict["values"] = df.COUNT.to_list()
-        return jsonify(dataDict)
+
     if period == "last_week":
-        latest_file = max(list_of_files, key=os.path.getctime)
-        df = pd.read_csv(latest_file, delimiter=";")
-
         # column name time
         dataDict["labels"] = [":".join(time[1:-1].replace(" ", "").split(",")[3:-1]) for time in df.DATE.to_list()]
-
         # column name count
         dataDict["values"] = df.COUNT.to_list()
-        return jsonify(dataDict)
-    f = open("data.csv", "r")
-    dataDict = dict()
-    for line in f:
-        line = line.strip()
-        date = line.split(",")[0]
-        day = ".".join(date.split(".")[0:2])
-        year = date.split(".")[2]
-        clock = ".".join(date.split(".")[3:6])
-        seats = line.split(",")[1]
-        if year not in dataDict:
-            dataDict[year] = dict()
-        if day not in dataDict[year]:
-            dataDict[year][day] = dict()
-        dataDict[year][day][clock] = seats
     return jsonify(dataDict)
+
 
 if __name__ == "__main__":
     #get_data()
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
