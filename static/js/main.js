@@ -1,24 +1,67 @@
-let today = {
-    labels: [],
-    values: [],
-    Cap: "450"
-};
-let currentData = {};
-let last_week = {
-    labels: {
-
-    }
-}
+// global chart 
 let chart;
+
+// fill labels
+let allLabels = [];
+let allHours = ["07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
+let minutes;
+allHours.forEach(function (item, index) {
+    for (let i = 0; i<60; i++) {
+        minutes = i.toString();
+        if ((minutes.length) == 1) {
+            minutes = "0" + minutes;
+        }
+        allLabels.push(item+":"+minutes);
+    }
+});
+
+function refactorData(labels, data) {
+    // refactor data to fit standardized labels
+    // inp: original labels and original data
+    // out: new data
+    let newLabels= [], newData = [];
+    labels.forEach(function (item, index) {
+        if (index == 0) {
+            newLabels.push(labels[index]);
+            newData.push(data[index]);
+        }
+        else if (labels[index] != labels[index-1]) {
+            newLabels.push(labels[index]);
+            newData.push(data[index]);
+        }
+    });
+
+    newDataFinal = [];
+    allLabels.forEach(function (item, index) {
+        newDataFinal.push(0);
+    });
+
+    newLabels.forEach(function (item, index) {
+        time = item;
+        if (item.length == 4) {
+            time = "0"+time;
+        }
+        indexInAllLabels = allLabels.indexOf(time, index);
+        newDataFinal[indexInAllLabels] = newData[index];
+    });
+    let currentValue = 0;
+    newDataFinal.forEach(function (item, index) {
+        if (item != currentValue && item != 0) {
+            currentValue = item;
+        };
+        newDataFinal[index] = currentValue;
+    });
+    return newDataFinal;
+}
 
 // update graph
 function update_graph(data) {
     var ctx = document.getElementById('main-chart');
     const dataSet = {
-        labels: data.labels,
+        labels: allLabels,
         datasets: [{
             label: 'Heute',
-            data: data.values,
+            data: refactorData(data.labels, data.values),
             fill: true,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.2,
@@ -64,6 +107,14 @@ function update_graph(data) {
                 x: {
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 25,
+                        callback: function(val, index) {
+                            // Hide the label of every 2nd dataset
+                            return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                          },
                     }
                 },
                 y: {
@@ -85,10 +136,16 @@ function update_graph(data) {
 
 // add newest data to chart
 function addData(label, data) {
+    if (label.length == 4) {
+        label = "0"+label;
+    }
     chart.data.datasets.forEach((dataset) => {
-        if (dataset.data[dataset.data.length - 1] != data) {
+        if (dataset.data[dataset.data.length - 1] != data && label != chart.data.labels[-1]) {
             chart.data.labels.push(label);
             dataset.data.push(data);
+        }
+        else if (dataset.data[dataset.data.length - 1] != data && label == chart.data.labels[-1]) {
+            dataset.data[dataset.data.length - 1] = data;
         }
     });
     chart.update();
@@ -108,6 +165,7 @@ $.ajax({
     },
     success: function(data) {
         update_graph(data);
+        refactorData(data.labels, data.values)
         // update_numbers(data);
     },
     complete: function() {
