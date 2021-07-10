@@ -18,10 +18,12 @@
 <body>
   <header>
     <div class="navbar">
-      <img src="{{ url_for('static', filename='UBLogo.png') }}" width=5% alt="Logo" class="logo">
-      <!--<span>UB-Freiburg Tracker</span><span>Stand: <span id="day"></span> <span id="month"></span> <span id="year"></span>, <span></span> Uhr</span>-->
       <div class="title-and-stand">
-        <span class="title">UB-Freiburg-Tracker.de</span><span class="stand">Stand: <span id="date"></span></span>
+        <a href="https://www.ub-tracker.de" class="top-link">
+          <img src="{{ url_for('static', filename='UBLogo.png') }}" width=5% alt="Logo" class="logo">
+          <span class="title">UB-Tracker.de</span>
+        </a>
+        <span class="stand">Stand: <span id="date"></span></span>
       </div>
     </div>
   </header>

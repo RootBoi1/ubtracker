@@ -17,8 +17,12 @@ def send_css(path):
     return send_from_directory('css', path)
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
+
+@app.route('/impressum')
+def impressum():
+    return render_template('impressum.html')
 
 @app.route('/getFreeSeats', methods=['GET'])
 def get_data():

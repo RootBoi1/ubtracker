@@ -9,6 +9,11 @@ body {
     */
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
+
 .above-h1 {
     color: rgb(85, 85, 85);
     font-size: 1.5em;
@@ -47,6 +52,11 @@ h2 {
 .logo {
     min-height: 35px;
     min-width: 62px;
+}
+
+.top-link {
+    display: flex;
+    align-items: center;
 }
 
 .title-and-stand {
@@ -123,6 +133,23 @@ h2 {
     background-color: #404244;
     color: white;
     margin-top: 160px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    bottom: 10px;
+    width: 300px;
+    flex-direction: column;
+}
+
+.bottom-links {
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
 }
 
 /******************* responsive *******************/
