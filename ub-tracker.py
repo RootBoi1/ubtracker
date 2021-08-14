@@ -12,9 +12,12 @@ def get_free_seats():
     url = "https://checkin.ub.uni-freiburg.de/ajax/external/checkBack.php"
     last = 0
     while True:
-        request = requests.post(url)
-        data = json.loads(request.text)
-        request.close()
+        try:
+            request = requests.post(url)
+            data = json.loads(request.text)
+            request.close()
+        except:
+            contiune
 
         cap = data["cap"]
         count = data["count"]
@@ -32,7 +35,7 @@ def get_free_seats():
             time_asleep = 25200 - int(td(hours=t[3], minutes=t[4], seconds=t[5]).total_seconds())
             print(f"{int(time_asleep/3600)}h {int((time_asleep%3600)/60)+1}min")
             time.sleep(time_asleep)
-            with open(f"./data/{t[2]+1}-{t[1]}-{t[0]}.csv") as f:
+            with open(f"./data/{t[2]+1}-{t[1]}-{t[0]}.csv", 'a') as f:
                 f.write("DATE;CAP;COUNT;DELTA")
         time.sleep(1.7)
            
